@@ -72,6 +72,13 @@ app.get('/api/book/:id', async(req, res) => {
     res.send(book);
 })
 
+app.put('/api/book/:id', async(req, res) => {
+    console.log("update:" + req.params.id);
+    
+    let book = await bookModel.findByIdAndUpdate(req.params.id, req.body, {new: true});
+    res.send(book);
+})
+
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })
