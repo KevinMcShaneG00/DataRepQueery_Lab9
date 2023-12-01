@@ -26,16 +26,16 @@ main().catch(err => console.log(err));
 
 //paste our connection key in here
 async function main() {
-  await mongoose.connect('mongodb+srv://admin:admin@cluster0.dke412c.mongodb.net/?retryWrites=true&w=majority');
+    await mongoose.connect('mongodb+srv://admin:admin@cluster0.dke412c.mongodb.net/?retryWrites=true&w=majority');
 
-  // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
+    // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
 }
 
 //map how our database is layed out 
 const bookSchema = new mongoose.Schema({
-    title:String,
-    cover:String,
-    author:String
+    title: String,
+    cover: String,
+    author: String
 })
 
 const bookModel = mongoose.model('kevins_books', bookSchema);
@@ -53,29 +53,36 @@ app.post('/api/books', (req, res) => {
         cover: req.body.cover,
         author: req.body.author
     })//then and catch for the promise
-    .then(()=>{res.send("Book Created")})
-    .catch(()=>{res.send("Book NOT Created")})
+        .then(() => { res.send("Book Created") })
+        .catch(() => { res.send("Book NOT Created") })
 
 })
 
 //get data from mongose send it in respsone
-app.get('/api/books', async(req, res) => {    
+app.get('/api/books', async (req, res) => {
     let books = await bookModel.find({});
     //send json object
     res.json(books);
 })
 
+app.delete('/api/book/:id', async(req, res) => {
+    console.log("Delete: "+req.params.id);
+
+    let book = await bookModel.findByIdAndDelete(req.params.id);
+    res.send(book);
+})
+
 //method to return data for one specified book
-app.get('/api/book/:id', async(req, res) => {
+app.get('/api/book/:id', async (req, res) => {
     console.log(req.params.id);
     let book = await bookModel.findById(req.params.id);
     res.send(book);
 })
 
-app.put('/api/book/:id', async(req, res) => {
-    console.log("update:" + req.params.id);
-    
-    let book = await bookModel.findByIdAndUpdate(req.params.id, req.body, {new: true});
+app.put('http://localhost:4000/api/book/:id', async (req, res) => {
+    console.log("Delete:" + req.params.id);
+
+    let book = await bookModel.findByIdAndDelete(req.params.id)
     res.send(book);
 })
 
