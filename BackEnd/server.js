@@ -65,11 +65,12 @@ app.get('/api/books', async (req, res) => {
     res.json(books);
 })
 
+//listen for a delete http request async to avoid race condition
 app.delete('/api/book/:id', async(req, res) => {
-    console.log("Delete: "+req.params.id);
+    console.log("Delete: "+req.params.id);//print id of book that is being deleted
 
-    let book = await bookModel.findByIdAndDelete(req.params.id);
-    res.send(book);
+    let book = await bookModel.findByIdAndDelete(req.params.id);//do the delete
+    res.send(book);//book.js
 })
 
 //method to return data for one specified book
@@ -79,11 +80,12 @@ app.get('/api/book/:id', async (req, res) => {
     res.send(book);
 })
 
-app.put('http://localhost:4000/api/book/:id', async (req, res) => {
-    console.log("Delete:" + req.params.id);
-
-    let book = await bookModel.findByIdAndDelete(req.params.id)
-    res.send(book);
+//http listen for put to change details of a book
+app.put('/api/book/:id', async(req, res) => {
+    console.log("update:" + req.params.id);
+    
+    let book = await bookModel.findByIdAndUpdate(req.params.id, req.body, {new: true});
+    res.send(book);//resend to book.js to change the mapping
 })
 
 app.listen(port, () => {

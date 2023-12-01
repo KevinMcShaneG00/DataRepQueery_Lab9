@@ -19,10 +19,12 @@ function BookItem(props) {
                 </Card.Body>
                 {/* make an edit button that changes url */}
                 <Link to={'/edit/'+props.myBook._id} className='btn btn-primary'>edit</Link>
+                {/* anon function to send a http promise to delete the book sent with the given id */}
                 <Button variant="danger" onClick={(e)=>{
                     e.preventDefault();
 
                     axios.delete('http://localhost:4000/api/book/'+props.myBook._id)
+                    // after the delete reload the page using the function passed from read.js
                     .then((res)=>{
                         let reload = props.Reload();
                     })

@@ -24,6 +24,7 @@ function Read() {
         }, []
     );
 
+    //annonomus function to reload the page
     const Reload = (e) => {
         axios.get('http://localhost:4000/api/books')//get data from server.js
                 .then(
@@ -41,6 +42,7 @@ function Read() {
     return (
         <div>
             <h2>Hello from Read Component!</h2>
+            {/* passing the data and reload variable function to the child books.js */}
             <Books myBooks={data} ReloadData={Reload}></Books>
         </div>
     );
